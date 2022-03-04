@@ -45,6 +45,7 @@ func metricsHandler(logger log.Logger) http.HandlerFunc {
 		registry.MustRegister(NewNodesCollector(logger)) // from nodes.go
 		registry.MustRegister(NewCPUsCollector(logger))  // from cpus.go
 		registry.MustRegister(NewGPUsCollector(logger))  // from gpus.go
+		registry.MustRegister(NewSShareCollector()) // from sshare.go
 		if *partitionEnable {
 			registry.MustRegister(NewPartitionCollector(logger)) // from partition.go
 		}
