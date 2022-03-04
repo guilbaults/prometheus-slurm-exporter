@@ -31,6 +31,9 @@ func TestSlurmdbdMetrics(t *testing.T) {
 		t.Fatalf("Can not open test data: %v", err)
 	}
 	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		t.Fatalf("Can not read test data: %v", err)
+	}
 	w := log.NewSyncWriter(os.Stderr)
 	logger := log.NewLogfmtLogger(w)
 	t.Logf("%+v", ParseSlurmdbdMetrics(string(data), logger))

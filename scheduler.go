@@ -118,17 +118,17 @@ func ParseSchedulerMetrics(input string) *SchedulerMetrics {
 			}
 
 			switch {
-			case st.MatchString(state) == true:
+			case st.MatchString(state):
 				sm.threads, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
-			case qs.MatchString(state) == true:
+			case qs.MatchString(state):
 				sm.queue_size, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
-			case lc.MatchString(state) == true:
+			case lc.MatchString(state):
 				if in_backfill {
 					sm.backfill_last_cycle, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				} else {
 					sm.last_cycle, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				}
-			case mc.MatchString(state) == true:
+			case mc.MatchString(state):
 				if in_backfill {
 					sm.backfill_mean_cycle, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				} else {
@@ -136,7 +136,7 @@ func ParseSchedulerMetrics(input string) *SchedulerMetrics {
 				}
 			case mdc.MatchString(state):
 				sm.mean_depth_cycle, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
-			case cpm.MatchString(state) == true:
+			case cpm.MatchString(state):
 				sm.cycle_per_minute, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 			case lql.MatchString(state):
 				if in_backfill {
@@ -144,13 +144,13 @@ func ParseSchedulerMetrics(input string) *SchedulerMetrics {
 				} else {
 					sm.last_queue_length, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				}
-			case dpm.MatchString(state) == true:
+			case dpm.MatchString(state):
 				if strings.Contains(line, "try sched") {
 					sm.backfill_depth_mean_try_sched, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				} else {
 					sm.backfill_depth_mean, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				}
-			case ldc.MatchString(state) == true:
+			case ldc.MatchString(state):
 				if strings.Contains(line, "try sched") {
 					sm.backfill_last_depth_cycle_try_sched, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 				} else {
@@ -162,11 +162,11 @@ func ParseSchedulerMetrics(input string) *SchedulerMetrics {
 				sm.backfill_last_table_size, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 			case mts.MatchString(state):
 				sm.backfill_mean_table_size, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
-			case tbs.MatchString(state) == true:
+			case tbs.MatchString(state):
 				sm.total_backfilled_jobs_since_start, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
-			case tbc.MatchString(state) == true:
+			case tbc.MatchString(state):
 				sm.total_backfilled_jobs_since_cycle, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
-			case tbh.MatchString(state) == true:
+			case tbh.MatchString(state):
 				sm.total_backfilled_heterogeneous, _ = strconv.ParseFloat(strings.TrimSpace(strings.Split(line, ":")[1]), 64)
 			}
 		}
@@ -179,18 +179,6 @@ func ParseSchedulerMetrics(input string) *SchedulerMetrics {
 	sm.user_rpc_stats_avg_time = rpc_stats[4]
 	sm.user_rpc_stats_total_time = rpc_stats[5]
 	return &sm
-}
-
-// Helper function to split a single line from the sdiag output
-func SplitColonValueToFloat(input string) float64 {
-	str := strings.Split(input, ":")
-	if len(str) == 1 {
-		return 0
-	} else {
-		rvalue := strings.TrimSpace(str[1])
-		flt, _ := strconv.ParseFloat(rvalue, 64)
-		return flt
-	}
 }
 
 // Helper function to return RPC stats from sdiag output

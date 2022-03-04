@@ -112,25 +112,25 @@ func ParseNodesMetrics(input string) *NodesMetrics {
 			resv := regexp.MustCompile(`^res`)
 			unknown := regexp.MustCompile(`^unknown`)
 			switch {
-			case alloc.MatchString(state) == true:
+			case alloc.MatchString(state):
 				nm.alloc++
-			case comp.MatchString(state) == true:
+			case comp.MatchString(state):
 				nm.comp++
-			case down.MatchString(state) == true:
+			case down.MatchString(state):
 				nm.down++
-			case drain.MatchString(state) == true:
+			case drain.MatchString(state):
 				nm.drain++
-			case fail.MatchString(state) == true:
+			case fail.MatchString(state):
 				nm.fail++
-			case err.MatchString(state) == true:
+			case err.MatchString(state):
 				nm.err++
-			case idle.MatchString(state) == true:
+			case idle.MatchString(state):
 				nm.idle++
-			case maint.MatchString(state) == true:
+			case maint.MatchString(state):
 				nm.maint++
-			case mix.MatchString(state) == true:
+			case mix.MatchString(state):
 				nm.mix++
-			case resv.MatchString(state) == true:
+			case resv.MatchString(state):
 				nm.resv++
 			case unknown.MatchString(state):
 				nm.unknown++

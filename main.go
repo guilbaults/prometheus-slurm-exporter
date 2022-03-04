@@ -78,7 +78,7 @@ func sliceContains(slice []string, str string) bool {
 func main() {
 	promlogConfig := &promlog.Config{}
 	flag.AddFlags(kingpin.CommandLine, promlogConfig)
-	kingpin.Version(version.Print("gpfs_exporter"))
+	kingpin.Version(version.Print("slurm_exporter"))
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 
